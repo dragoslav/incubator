@@ -15,6 +15,7 @@ resolvers ++= Seq(
   Resolver.mavenLocal
 )
 
+val piShakeVersion = "0.1.0"
 val akkaVersion = "2.3.9"
 val scalaLoggingVersion = "3.1.0"
 val slf4jVersion = "1.7.10"
@@ -23,6 +24,8 @@ val junitVersion = "4.11"
 val scalatestVersion = "2.2.4"
 
 libraryDependencies ++= Seq(
+  "nl.proja" %% "model" % piShakeVersion,
+  "nl.proja" %% "common" % piShakeVersion,
   "com.typesafe.akka" %% "akka-actor" % akkaVersion,
   "com.typesafe.akka" %% "akka-remote" % akkaVersion,
   "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
