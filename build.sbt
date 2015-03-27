@@ -24,7 +24,6 @@ val junitVersion = "4.11"
 val scalatestVersion = "2.2.4"
 
 libraryDependencies ++= Seq(
-  "nl.proja" %% "model" % piShakeVersion,
   "nl.proja" %% "common" % piShakeVersion,
   "com.typesafe.akka" %% "akka-actor" % akkaVersion,
   "com.typesafe.akka" %% "akka-remote" % akkaVersion,
