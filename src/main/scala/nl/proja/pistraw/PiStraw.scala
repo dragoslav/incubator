@@ -5,9 +5,10 @@ import akka.pattern.ask
 import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
 import nl.proja.pishake.model.{Gpio, SystemInfo}
+import nl.proja.pishake.operation.DS18B20Controller.{DS18B20, ReadDS18B20}
 import nl.proja.pishake.operation.GpioOut.Pulse
 import nl.proja.pishake.operation.SystemActor.Info
-import nl.proja.pishake.operation.{GpioController, SystemActor}
+import nl.proja.pishake.operation.{DS18B20Controller, GpioController, SystemActor}
 import nl.proja.pishake.util.{ActorDescription, ActorSupport, FutureSupport}
 import nl.proja.pistraw.PiStrawActor.Start
 
@@ -16,7 +17,6 @@ import scala.language.postfixOps
 
 object PiStraw extends App {
   implicit val system = ActorSystem("PiStraw")
-
 
   ActorSupport.actorOf(PiStrawActor) ! Start
 }
@@ -34,12 +34,14 @@ class PiStrawActor extends Actor with ActorLogging with FutureSupport with Actor
   implicit val timeout = Timeout(5 seconds)
 
   val remoteUrl = ConfigFactory.load().getString("akka.remote.url")
+  lazy val gpioController = remoteActorFor(remoteUrl, GpioController.name)
+  lazy val dS18B20Controller = remoteActorFor(remoteUrl, DS18B20Controller.name)
 
   def receive = {
-    case Start => led()
-  }
+    case Start => dS18B20()
 
-  lazy val gpioController = remoteActorFor(remoteUrl, GpioController.name)
+    case DS18B20(serialNumber, temperature) => println(s"$serialNumber: $temperature°C")
+  }
 
   def info() = offload(remoteActorFor(remoteUrl, SystemActor.name) ? Info) match {
     case info: SystemInfo => println(info)
@@ -49,6 +51,11 @@ class PiStrawActor extends Actor with ActorLogging with FutureSupport with Actor
   def led() = {
     gpioController ! Pulse(Gpio.Pin.Pin01, 3 seconds)
   }
+
+  def dS18B20() = {
+    dS18B20Controller ! ReadDS18B20
+  }
+
 }
 
 
