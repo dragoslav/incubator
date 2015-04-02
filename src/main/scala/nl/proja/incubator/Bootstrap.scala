@@ -1,17 +1,17 @@
-package nl.proja.pistraw
+package nl.proja.incubator
 
 import akka.actor._
 import nl.proja.pishake.util.ActorSupport
 
 import scala.language.postfixOps
 
-object PiStraw extends App {
+object Bootstrap extends App {
 
   object Start extends Serializable
 
   object Shutdown extends Serializable
 
-  implicit val system = ActorSystem("PiStraw")
+  implicit val system = ActorSystem("Incubator")
 
   val actors = ActorSupport.actorOf(ElasticSearchActor) :: ActorSupport.actorOf(IncubatorActor) :: Nil
 

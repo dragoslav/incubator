@@ -1,7 +1,7 @@
 organization := "nl.proja"
 
 
-name := """PiStraw"""
+name := """incubator"""
 
 version := "0.1.0"
 

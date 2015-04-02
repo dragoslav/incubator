@@ -1,4 +1,4 @@
-package nl.proja.pistraw
+package nl.proja.incubator
 
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
@@ -9,8 +9,8 @@ import com.typesafe.config.ConfigFactory
 import nl.proja.pishake.operation.DS18B20Controller
 import nl.proja.pishake.operation.DS18B20Controller.{DS18B20, ReadDS18B20}
 import nl.proja.pishake.util.{ActorDescription, ActorSupport, FutureSupport}
-import nl.proja.pistraw.ElasticSearchActor.IndexDocument
-import nl.proja.pistraw.PiStraw.{Shutdown, Start}
+import nl.proja.incubator.ElasticSearchActor.IndexDocument
+import nl.proja.incubator.Bootstrap.{Shutdown, Start}
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
@@ -25,7 +25,7 @@ case class Temperature(value: Double, timestamp: String = OffsetDateTime.now().f
 
 class IncubatorActor extends Actor with ActorLogging with FutureSupport with ActorSupport {
 
-  private val config = ConfigFactory.load().getConfig("pistraw.incubator")
+  private val config = ConfigFactory.load().getConfig("incubator")
 
   private implicit val timeout = Timeout(5 seconds)
   private val remoteUrl = ConfigFactory.load().getString("akka.remote.url")
