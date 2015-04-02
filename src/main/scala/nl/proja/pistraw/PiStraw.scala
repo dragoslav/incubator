@@ -13,21 +13,16 @@ object PiStraw extends App {
 
   implicit val system = ActorSystem("PiStraw")
 
-  val elasticSearchActor = ActorSupport.actorOf(ElasticSearchActor)
-  val incubatorActor = ActorSupport.actorOf(IncubatorActor)
-
-  elasticSearchActor ! Start
-  incubatorActor ! Start
+  val actors = ActorSupport.actorOf(ElasticSearchActor) :: ActorSupport.actorOf(IncubatorActor) :: Nil
 
   Runtime.getRuntime.addShutdownHook(new Thread() {
     override def run() = {
-      incubatorActor ! Shutdown
-      elasticSearchActor ! Shutdown
-
-      incubatorActor ! PoisonPill
-      elasticSearchActor ! PoisonPill
+      actors.reverse.foreach { actor =>
+        actor ! Shutdown
+        actor ! PoisonPill
+      }
     }
   })
+
+  actors.foreach(actor => actor ! Start)
 }
-
-

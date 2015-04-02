@@ -18,9 +18,7 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
   "nl.proja" %% "common" % "0.1.0",
   "org.elasticsearch" % "elasticsearch" % "1.5.0",
-  "com.sksamuel.elastic4s" %% "elastic4s" % "1.5.1",
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.5.0",
-  "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.5.0",
+  "org.json4s" %% "json4s-native" % "3.2.11",
   "com.typesafe.akka" %% "akka-actor" % "2.3.9",
   "com.typesafe.akka" %% "akka-remote" % "2.3.9",
   "com.typesafe.akka" %% "akka-slf4j" % "2.3.9",
@@ -30,6 +28,3 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.3.0-M1",
   "junit" % "junit" % "4.11" % "test"
 )
-
-
-
