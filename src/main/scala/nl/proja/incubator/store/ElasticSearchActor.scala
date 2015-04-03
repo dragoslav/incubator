@@ -1,4 +1,4 @@
-package nl.proja.incubator
+package nl.proja.incubator.store
 
 import java.io.File
 import java.time.OffsetDateTime
@@ -6,9 +6,9 @@ import java.time.format.DateTimeFormatter
 
 import akka.actor._
 import com.typesafe.config.ConfigFactory
-import nl.proja.pishake.util.{ActorDescription, ActorSupport, FutureSupport}
-import nl.proja.incubator.ElasticSearchActor.IndexDocument
 import nl.proja.incubator.Bootstrap.{Shutdown, Start}
+import nl.proja.incubator.store.ElasticSearchActor.IndexDocument
+import nl.proja.pishake.util.{ActorDescription, ActorSupport, FutureSupport}
 import org.elasticsearch.common.settings.ImmutableSettings
 import org.elasticsearch.node.NodeBuilder._
 import org.json4s.JsonAST.JString

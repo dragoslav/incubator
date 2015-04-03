@@ -1,4 +1,4 @@
-package nl.proja.incubator
+package nl.proja.incubator.gpio
 
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
@@ -6,11 +6,12 @@ import java.time.format.DateTimeFormatter
 import akka.actor._
 import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
+import nl.proja.incubator.Bootstrap.{Shutdown, Start}
+import nl.proja.incubator.store.ElasticSearchActor
+import nl.proja.incubator.store.ElasticSearchActor.IndexDocument
 import nl.proja.pishake.operation.DS18B20Controller
 import nl.proja.pishake.operation.DS18B20Controller.{DS18B20, ReadDS18B20}
 import nl.proja.pishake.util.{ActorDescription, ActorSupport, FutureSupport}
-import nl.proja.incubator.ElasticSearchActor.IndexDocument
-import nl.proja.incubator.Bootstrap.{Shutdown, Start}
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
