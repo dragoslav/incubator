@@ -46,7 +46,7 @@ trait RestApiRoute extends HttpServiceBase with RestApiController with HiRoute {
     case HttpEntity.Empty => Map[String, Any]()
   }
 
-  val route = noCachingAllowed {
+  val restApiRoutes = noCachingAllowed {
     allowXhrFromOtherHosts {
       pathPrefix("api" / "v1") {
         respondWithMediaType(`application/json`) {
@@ -105,6 +105,7 @@ trait RestApiController extends ActorSupport with FutureSupport {
   def setTargetTemperature(request: Map[String, Any])(implicit timeout: Timeout) = request.get("value") match {
     case None => actorFor(TemperatureActor) ? TemperatureActor.SetTargetTemperature(None)
     case Some(value: Double) => actorFor(TemperatureActor) ? TemperatureActor.SetTargetTemperature(Some(value))
+    case Some(value: BigInt) => actorFor(TemperatureActor) ? TemperatureActor.SetTargetTemperature(Some(value.doubleValue()))
     case _ => Future {}
   }
 
