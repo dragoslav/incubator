@@ -4,7 +4,7 @@ import akka.actor._
 import akka.io.IO
 import akka.pattern.ask
 import com.typesafe.config.ConfigFactory
-import nl.proja.incubator.gpio.IncubatorActor
+import nl.proja.incubator.gpio.TemperatureActor
 import nl.proja.incubator.server.HttpServerActor
 import nl.proja.incubator.store.ElasticSearchActor
 import nl.proja.pishake.util.ActorSupport
@@ -23,7 +23,7 @@ object Bootstrap extends App {
 
   val config = ConfigFactory.load().getConfig("incubator.server")
 
-  val actors = ActorSupport.actorOf(ElasticSearchActor) :: ActorSupport.actorOf(IncubatorActor) :: Nil
+  val actors = ActorSupport.actorOf(ElasticSearchActor) :: ActorSupport.actorOf(TemperatureActor) :: Nil
 
   Runtime.getRuntime.addShutdownHook(new Thread() {
     override def run() = {

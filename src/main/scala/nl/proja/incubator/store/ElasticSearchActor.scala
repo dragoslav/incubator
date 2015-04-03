@@ -1,18 +1,15 @@
 package nl.proja.incubator.store
 
 import java.io.File
-import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
 
 import akka.actor._
 import com.typesafe.config.ConfigFactory
 import nl.proja.incubator.Bootstrap.{Shutdown, Start}
+import nl.proja.incubator.json.{OffsetDateTimeSerializer, SerializationFormat}
 import nl.proja.incubator.store.ElasticSearchActor.IndexDocument
 import nl.proja.pishake.util.{ActorDescription, ActorSupport, FutureSupport}
 import org.elasticsearch.common.settings.ImmutableSettings
 import org.elasticsearch.node.NodeBuilder._
-import org.json4s.JsonAST.JString
-import org.json4s._
 import org.json4s.native.Serialization._
 
 import scala.language.{implicitConversions, postfixOps}
@@ -49,17 +46,7 @@ class ElasticSearchActor extends Actor with ActorLogging with FutureSupport with
     case Shutdown => node.close()
 
     case IndexDocument(ind, typ, any) =>
-      implicit val format = DefaultFormats + new OffsetDateTimeSerializer
+      implicit val format = SerializationFormat(OffsetDateTimeSerializer)
       client.prepareIndex(ind, typ).setSource(write(any)).execute().actionGet()
-  }
-}
-
-class OffsetDateTimeSerializer extends Serializer[OffsetDateTime] {
-  def serialize(implicit format: Formats): PartialFunction[Any, JValue] = {
-    case timestamp: OffsetDateTime => JString(timestamp.format(DateTimeFormatter.ISO_INSTANT))
-  }
-
-  def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), OffsetDateTime] = {
-    case (_, timestamp: JString) => OffsetDateTime.parse(timestamp.values, DateTimeFormatter.ISO_INSTANT)
   }
 }
