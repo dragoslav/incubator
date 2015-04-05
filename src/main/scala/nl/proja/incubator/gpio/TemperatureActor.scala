@@ -4,13 +4,12 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 
 import akka.actor._
-import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
 import nl.proja.incubator.Bootstrap.{Shutdown, Start}
-import nl.proja.incubator.store.ElasticSearchActor
+import nl.proja.incubator.store.ElasticSearch
 import nl.proja.incubator.store.ElasticSearchActor.IndexDocument
 import nl.proja.pishake.operation.DS18B20Controller
-import nl.proja.pishake.util.{ActorDescription, ActorSupport, FutureSupport}
+import nl.proja.pishake.util.ActorDescription
 
 import scala.collection.mutable
 import scala.concurrent.duration._
@@ -30,37 +29,29 @@ object TemperatureActor extends ActorDescription {
 
   case class Temperature(name: String, value: Double, timestamp: OffsetDateTime)
 
+  object GetTemperatureStatistics
+
+  case class TemperatureStatistics(average: Double, minimum: Double, maximum: Double, target: Double)
+
 }
 
-class TemperatureActor extends Actor with ActorLogging with FutureSupport with ActorSupport {
+class TemperatureActor extends Actor with ActorLogging with RemoteActorSupport with ElasticSearch with TimerTaskActor {
 
   import TemperatureActor._
 
-  private val config = ConfigFactory.load().getConfig("incubator")
-
-  private implicit val timeout = Timeout(5 seconds)
-  private val remoteUrl = ConfigFactory.load().getString("akka.remote.url")
-
-  private lazy val elasticSearch = actorFor(ElasticSearchActor)
-  private lazy val temperatureSensor = remoteActorFor(remoteUrl, DS18B20Controller.name)
-
-  private var temperatureReader: Option[Cancellable] = None
+  private lazy val temperatureSensor = remoteActorFor(DS18B20Controller.name)
 
   private val temperatures = new mutable.LinkedHashMap[String, Temperature]()
 
   def receive = {
-    case Start =>
-      implicit val ec = context.system.dispatcher
-      temperatureReader = Some(context.system.scheduler.schedule(0 seconds, config.getInt("temperature-read-period") seconds, new Runnable {
-        def run() = {
-          temperatureSensor ! DS18B20Controller.ReadTemperature
-          temperatures.get(targetTemperature).foreach { temperature =>
-            store(temperature.copy(timestamp = OffsetDateTime.now()))
-          }
-        }
-      }))
+    case Start => startTimer({ () =>
+      temperatureSensor ! DS18B20Controller.ReadTemperature
+      temperatures.get(targetTemperature).foreach { temperature =>
+        store(temperature.copy(timestamp = OffsetDateTime.now()))
+      }
+    }, ConfigFactory.load().getConfig("incubator").getInt("temperature-read-period") seconds)
 
-    case Shutdown => temperatureReader.map(_.cancel())
+    case Shutdown => cancelTimer()
 
     case sensor: DS18B20Controller.Temperature =>
       val temperature = Temperature(sensor.sensor, sensor.value, sensor.timestamp)
@@ -75,6 +66,15 @@ class TemperatureActor extends Actor with ActorLogging with FutureSupport with A
     case SetTargetTemperature(Some(value)) => sender ! temperatures.put(targetTemperature, Temperature(targetTemperature, value, OffsetDateTime.now()))
 
     case SetTargetTemperature(None) => sender ! temperatures.remove(targetTemperature)
+
+    case GetTemperatureStatistics =>
+      temperatures.get(targetTemperature) match {
+        case None =>
+        case Some(Temperature(_, target, _)) =>
+          val readings = temperatures.values.filter(_.name != targetTemperature).map(_.value)
+          if (readings.size > 0)
+            sender ! TemperatureStatistics(readings.sum / readings.size, readings.min, readings.max, target)
+      }
   }
 
   def store(temperature: Temperature) = {
