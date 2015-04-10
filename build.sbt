@@ -29,3 +29,5 @@ libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.1.2",
   "com.typesafe" % "config" % "1.3.0-M1"
 )
+
+spray.revolver.RevolverPlugin.Revolver.settings.settings
