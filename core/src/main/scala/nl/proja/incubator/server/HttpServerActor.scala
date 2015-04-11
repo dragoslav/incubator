@@ -17,7 +17,7 @@ object HttpServerActor extends ActorDescription {
   def props(args: Any*): Props = Props[HttpServerActor]
 }
 
-class HttpServerActor extends HttpServiceActor with ActorLogging with RestApiRoute with StaticContentRoutes with HiRoute with ActorExecutionContextProvider {
+class HttpServerActor extends HttpServiceActor with ActorLogging with RestApiRoute with StaticContentRoutes with InfoRoute with ActorExecutionContextProvider {
 
   implicit val timeout = HttpServerActor.timeout
 

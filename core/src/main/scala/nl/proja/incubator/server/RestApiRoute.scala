@@ -19,7 +19,7 @@ import spray.routing.HttpServiceBase
 import scala.concurrent.Future
 import scala.language.{existentials, postfixOps}
 
-trait RestApiRoute extends HttpServiceBase with RestApiController with HiRoute {
+trait RestApiRoute extends HttpServiceBase with RestApiController with InfoRoute {
   this: Actor with ExecutionContextProvider =>
 
   implicit def timeout: Timeout
@@ -50,7 +50,7 @@ trait RestApiRoute extends HttpServiceBase with RestApiController with HiRoute {
     allowXhrFromOtherHosts {
       pathPrefix("api" / "v1") {
         respondWithMediaType(`application/json`) {
-          hiRoute ~ pathPrefix("temperatures") {
+          infoRoute ~ pathPrefix("temperatures") {
             pathEndOrSingleSlash {
               get {
                 onSuccess(getTemperatures) {

@@ -13,7 +13,7 @@ import nl.proja.incubator.store.ElasticSearch
 import nl.proja.incubator.store.ElasticSearchActor.IndexDocument
 import nl.proja.pishake.model.Gpio
 import nl.proja.pishake.operation.GpioController
-import nl.proja.pishake.operation.GpioOut.{Pulse, Blink, Low}
+import nl.proja.pishake.operation.GpioOut.{Low, Pulse}
 import nl.proja.pishake.util.ActorDescription
 
 import scala.concurrent.duration._
@@ -25,10 +25,10 @@ object HeaterActor extends ActorDescription {
 
 }
 
-class HeaterActor extends Actor with ActorLogging with RemoteActorSupport with ElasticSearch with TimerTaskActor {
+class HeaterActor extends Actor with ActorLogging with PiShakeActorSupport with ElasticSearch with TimerTaskActor {
 
   private val period = ConfigFactory.load().getConfig("incubator").getInt("temperature-read-period") seconds
-  private lazy val gpio = remoteActorFor(GpioController.name)
+  private lazy val gpio = piShakeActorFor(GpioController.name)
 
   def receive = {
     case Start => startTimer({ () =>

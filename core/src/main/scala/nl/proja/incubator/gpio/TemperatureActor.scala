@@ -35,11 +35,11 @@ object TemperatureActor extends ActorDescription {
 
 }
 
-class TemperatureActor extends Actor with ActorLogging with RemoteActorSupport with ElasticSearch with TimerTaskActor {
+class TemperatureActor extends Actor with ActorLogging with PiShakeActorSupport with ElasticSearch with TimerTaskActor {
 
   import TemperatureActor._
 
-  private lazy val temperatureSensor = remoteActorFor(DS18B20Controller.name)
+  private lazy val temperatureSensor = piShakeActorFor(DS18B20Controller.name)
 
   private val temperatures = new mutable.LinkedHashMap[String, Temperature]()
 
