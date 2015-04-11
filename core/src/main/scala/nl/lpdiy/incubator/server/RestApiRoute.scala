@@ -1,11 +1,12 @@
-package nl.proja.incubator.server
+package nl.lpdiy.incubator.server
 
 import akka.actor.Actor
 import akka.pattern.ask
 import akka.util.Timeout
-import nl.proja.incubator.gpio.TemperatureActor
-import nl.proja.incubator.json.{OffsetDateTimeSerializer, SerializationFormat, SnakeCaseSerializationFormat}
-import nl.proja.pishake.util.{ActorSupport, ExecutionContextProvider, FutureSupport}
+import nl.lpdiy.incubator.gpio.TemperatureActor
+import nl.lpdiy.incubator.json.{SerializationFormat, SnakeCaseSerializationFormat, OffsetDateTimeSerializer}
+import nl.lpdiy.incubator.json.SerializationFormat
+import nl.lpdiy.pishake.util.{ActorSupport, ExecutionContextProvider, FutureSupport}
 import org.json4s.native.Serialization._
 import spray.http.CacheDirectives.`no-store`
 import spray.http.HttpEntity

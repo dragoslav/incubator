@@ -1,4 +1,4 @@
-package nl.proja.incubator.gpio
+package nl.lpdiy.incubator.gpio
 
 import akka.actor.{Actor, Cancellable}
 

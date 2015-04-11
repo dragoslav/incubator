@@ -1,13 +1,14 @@
-package nl.proja.incubator
+package nl.lpdiy.incubator
 
 import akka.actor._
 import akka.io.IO
 import akka.pattern.ask
 import com.typesafe.config.ConfigFactory
-import nl.proja.incubator.gpio.{HeaterActor, TemperatureActor}
-import nl.proja.incubator.server.HttpServerActor
-import nl.proja.incubator.store.ElasticSearchActor
-import nl.proja.pishake.util.ActorSupport
+import nl.lpdiy.incubator.gpio.{HeaterActor, TemperatureActor}
+import nl.lpdiy.incubator.server.HttpServerActor
+import nl.lpdiy.incubator.store.ElasticSearchActor
+import nl.lpdiy.incubator.gpio.HeaterActor
+import nl.lpdiy.pishake.util.ActorSupport
 import spray.can.Http
 
 import scala.language.postfixOps

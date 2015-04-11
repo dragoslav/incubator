@@ -1,6 +1,6 @@
-package nl.proja.incubator.store
+package nl.lpdiy.incubator.store
 
-import nl.proja.pishake.util.ActorSupport
+import nl.lpdiy.pishake.util.ActorSupport
 
 trait ElasticSearch {
   this: ActorSupport =>

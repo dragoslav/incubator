@@ -1,4 +1,4 @@
-package nl.proja.incubator.json
+package nl.lpdiy.incubator.json
 
 import org.json4s._
 

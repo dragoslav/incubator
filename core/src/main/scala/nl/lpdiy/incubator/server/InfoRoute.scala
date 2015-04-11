@@ -1,12 +1,12 @@
-package nl.proja.incubator.server
+package nl.lpdiy.incubator.server
 
 import akka.actor.Actor
 import akka.pattern.ask
 import akka.util.Timeout
-import nl.proja.incubator.gpio.PiShakeActorSupport
-import nl.proja.pishake.model.SystemInfo
-import nl.proja.pishake.operation.SystemActor
-import nl.proja.pishake.util.{ExecutionContextProvider, FutureSupport}
+import nl.lpdiy.incubator.gpio.PiShakeActorSupport
+import nl.lpdiy.pishake.model.SystemInfo
+import nl.lpdiy.pishake.operation.SystemActor
+import nl.lpdiy.pishake.util.{ExecutionContextProvider, FutureSupport}
 import spray.http.StatusCodes._
 import spray.httpx.marshalling.Marshaller
 import spray.routing.HttpServiceBase

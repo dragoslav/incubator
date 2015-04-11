@@ -1,8 +1,8 @@
-package nl.proja.incubator.server
+package nl.lpdiy.incubator.server
 
 import akka.actor.Actor
 import akka.util.Timeout
-import nl.proja.pishake.util.{ActorSupport, ExecutionContextProvider, FutureSupport}
+import nl.lpdiy.pishake.util.{ActorSupport, ExecutionContextProvider, FutureSupport}
 import spray.httpx.marshalling.Marshaller
 import spray.routing.HttpServiceBase
 

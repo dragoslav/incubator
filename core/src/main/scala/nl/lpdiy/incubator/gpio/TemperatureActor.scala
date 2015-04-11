@@ -1,15 +1,16 @@
-package nl.proja.incubator.gpio
+package nl.lpdiy.incubator.gpio
 
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 
 import akka.actor._
 import com.typesafe.config.ConfigFactory
-import nl.proja.incubator.Bootstrap.{Shutdown, Start}
-import nl.proja.incubator.store.ElasticSearch
-import nl.proja.incubator.store.ElasticSearchActor.IndexDocument
-import nl.proja.pishake.operation.DS18B20Controller
-import nl.proja.pishake.util.ActorDescription
+import nl.lpdiy.incubator.Bootstrap
+import nl.lpdiy.incubator.store.{ElasticSearch, ElasticSearchActor}
+import Bootstrap.{Shutdown, Start}
+import ElasticSearchActor.IndexDocument
+import nl.lpdiy.pishake.operation.DS18B20Controller
+import nl.lpdiy.pishake.util.ActorDescription
 
 import scala.collection.mutable
 import scala.concurrent.duration._

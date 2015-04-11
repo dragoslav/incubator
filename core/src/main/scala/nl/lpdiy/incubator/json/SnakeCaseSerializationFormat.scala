@@ -1,6 +1,6 @@
-package nl.proja.incubator.json
+package nl.lpdiy.incubator.json
 
-import nl.proja.pishake.util.Text
+import nl.lpdiy.pishake.util.Text
 import org.json4s._
 
 object SnakeCaseSerializationFormat extends SerializationFormat {

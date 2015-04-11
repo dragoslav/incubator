@@ -1,8 +1,8 @@
-package nl.proja.incubator.gpio
+package nl.lpdiy.incubator.gpio
 
 import akka.actor.{Actor, ActorSelection}
 import com.typesafe.config.ConfigFactory
-import nl.proja.pishake.util.{ActorSupport, FutureSupport}
+import nl.lpdiy.pishake.util.{ActorSupport, FutureSupport}
 
 trait PiShakeActorSupport extends FutureSupport with ActorSupport {
   this: Actor =>

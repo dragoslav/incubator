@@ -1,8 +1,8 @@
-package nl.proja.incubator
+package nl.lpdiy.incubator
 
 import akka.actor.ActorSystem
 import com.typesafe.config.ConfigFactory
-import nl.proja.pishake.PiShake
+import nl.lpdiy.pishake.PiShake
 import scala.language.postfixOps
 
 object Incubator extends App {

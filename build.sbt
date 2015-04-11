@@ -1,4 +1,4 @@
-organization in ThisBuild := "nl.proja"
+organization in ThisBuild := "nl.lpdiy"
 
 name := """incubator"""
 
@@ -20,8 +20,7 @@ resolvers in ThisBuild ++= Seq(
   "Spray repo" at "http://repo.spray.io/",
   "Sonatype releases" at "http://oss.sonatype.org/content/repositories/releases/",
   "Sonatype OSS Maven Repository" at "https://oss.sonatype.org/content/groups/public",
-  "Typesafe repo" at "http://repo.typesafe.com/typesafe/releases/",
-  Resolver.mavenLocal
+  "Typesafe repo" at "http://repo.typesafe.com/typesafe/releases/"
 )
 
 dependencyOverrides in ThisBuild ++= Set(
@@ -34,7 +33,7 @@ scalacOptions += "-target:jvm-1.8"
 javacOptions ++= Seq("-encoding", "UTF-8")
 
 libraryDependencies in ThisBuild ++= Seq(
-  "nl.proja" %% "common" % "0.1.0",
+  "nl.lpdiy" %% "pishake-common" % "0.1.0",
   "org.elasticsearch" % "elasticsearch" % "1.5.0",
   "io.spray" %% "spray-can" % "1.3.3",
   "io.spray" %% "spray-routing" % "1.3.3",
@@ -48,7 +47,7 @@ libraryDependencies in ThisBuild ++= Seq(
   "com.typesafe" % "config" % "1.3.0-M1"
 )
 
-lazy val root = project.in(file(".")).settings(
+lazy val root = Project(id = "incubator", base = file(".")).settings(
   packagedArtifacts in file(".") := Map.empty,
   run := {
     (run in assembly in Compile).evaluated
@@ -57,14 +56,14 @@ lazy val root = project.in(file(".")).settings(
     core, assembly
   ).disablePlugins(sbtassembly.AssemblyPlugin)
 
-lazy val core = project.settings(
+lazy val core = Project(id = "incubator-core", base = file("core")).settings(
   libraryDependencies ++= Seq(
   )
 )
 
-lazy val assembly = project.settings(
+lazy val assembly = Project(id = "incubator-assembly", base = file("assembly")).settings(
   libraryDependencies ++= Seq(
-    "nl.proja" %% "server" % "0.1.0",
+    "nl.lpdiy" %% "pishake-server" % "0.1.0",
     "com.pi4j" % "pi4j-core" % "1.0-SNAPSHOT"
   )
 ).dependsOn(core)

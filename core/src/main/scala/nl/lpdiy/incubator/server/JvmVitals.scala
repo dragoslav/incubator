@@ -1,9 +1,9 @@
-package nl.proja.incubator.server
+package nl.lpdiy.incubator.server
 
 import java.lang.management.ManagementFactory
 
 import akka.util.Timeout
-import nl.proja.pishake.util.ExecutionContextProvider
+import nl.lpdiy.pishake.util.ExecutionContextProvider
 
 case class JvmVitals(operatingSystem: OperatingSystemVitals, runtime: RuntimeVitals, memory: MemoryVitals, threads: ThreadVitals)
 

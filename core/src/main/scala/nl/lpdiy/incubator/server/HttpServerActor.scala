@@ -1,9 +1,9 @@
-package nl.proja.incubator.server
+package nl.lpdiy.incubator.server
 
 import akka.actor.{ActorLogging, Props}
 import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
-import nl.proja.pishake.util.{ActorDescription, ActorExecutionContextProvider}
+import nl.lpdiy.pishake.util.{ActorDescription, ActorExecutionContextProvider}
 import spray.http.StatusCodes._
 import spray.http.{HttpRequest, HttpResponse, Timedout}
 import spray.routing._

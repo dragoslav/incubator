@@ -1,4 +1,4 @@
-package nl.proja.incubator.gpio
+package nl.lpdiy.incubator.gpio
 
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
@@ -7,14 +7,15 @@ import akka.actor._
 import akka.pattern.ask
 import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
-import nl.proja.incubator.Bootstrap.{Shutdown, Start}
-import nl.proja.incubator.gpio.TemperatureActor.{GetTemperatureStatistics, TemperatureStatistics}
-import nl.proja.incubator.store.ElasticSearch
-import nl.proja.incubator.store.ElasticSearchActor.IndexDocument
-import nl.proja.pishake.model.Gpio
-import nl.proja.pishake.operation.GpioController
-import nl.proja.pishake.operation.GpioOut.{Low, Pulse}
-import nl.proja.pishake.util.ActorDescription
+import nl.lpdiy.incubator.Bootstrap
+import nl.lpdiy.incubator.store.{ElasticSearch, ElasticSearchActor}
+import Bootstrap.{Shutdown, Start}
+import TemperatureActor.{GetTemperatureStatistics, TemperatureStatistics}
+import ElasticSearchActor.IndexDocument
+import nl.lpdiy.pishake.model.Gpio
+import nl.lpdiy.pishake.operation.GpioController
+import nl.lpdiy.pishake.operation.GpioOut.{Low, Pulse}
+import nl.lpdiy.pishake.util.ActorDescription
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
